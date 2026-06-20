@@ -4,7 +4,7 @@ import { decrement, increment,reset,incrementByAmount } from '../features/counte
 
 
 const Counter = () => {
-    const[amount, setAmount] = useState(0)
+    const[amount, setAmount] = useState("")
     const count = useSelector((state) => state.counter.value)
     const dispatch = useDispatch()
     
@@ -24,9 +24,12 @@ const Counter = () => {
         dispatch(reset())
     }
     const handleAmount = () => {
+        //if value is string return please enter a number on the screen not a alert
+        if(typeof amount !== "number") return alert("Please enter a number")
+
         const value = amount
         dispatch(incrementByAmount(value))
-        value = ''     
+        setAmount("")
     }
   return (
     <div>
@@ -34,7 +37,7 @@ const Counter = () => {
       <button onClick={handleIncrement}>Increment</button>
       <button onClick={handleDecrement}>Decrement</button>
       <button onClick={handleReset}>Reset</button>
-      <input onChange={(e) => setAmount(e.target.value)} type="text" placeholder='Enter Amount' />
+      <input value={amount} onChange={(e) => setAmount(e.target.value)} type="text" placeholder='Enter Amount' />
       <button onClick={handleAmount}>Send</button>
       
     </div>
