@@ -4,6 +4,7 @@ import { decrement, increment,reset,incrementByAmount } from '../features/counte
 
 
 const Counter = () => {
+    const [modal, showModal] = useState(false)
     const[amount, setAmount] = useState("")
     const count = useSelector((state) => state.counter.value)
     const dispatch = useDispatch()
@@ -25,12 +26,29 @@ const Counter = () => {
     }
     const handleAmount = () => {
         //if value is string return please enter a number on the screen not a alert
-        if(typeof amount !== "number") return alert("Please enter a number")
-
+       if (isNaN(amount) || amount.trim() === "") {
+        showModal(true);
+        
+       }
         const value = amount
         dispatch(incrementByAmount(value))
         setAmount("")
     }
+    if (modal) {
+    return (
+        <div className="h-screen flex items-center justify-center">
+            <div className="border p-6 rounded">
+                <h2>Abe number dalna h 😒</h2>
+
+                <button
+                    onClick={() => showModal(false)}
+                >
+                    OK
+                </button>
+            </div>
+        </div>
+    );
+}
   return (
     <div>
       <h1>Counter {count}</h1>
@@ -39,7 +57,6 @@ const Counter = () => {
       <button onClick={handleReset}>Reset</button>
       <input value={amount} onChange={(e) => setAmount(e.target.value)} type="text" placeholder='Enter Amount' />
       <button onClick={handleAmount}>Send</button>
-      
     </div>
   )
 }
